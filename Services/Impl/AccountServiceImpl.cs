@@ -55,7 +55,10 @@ namespace Services.Impl
             {
                 if(account.PasswordHash == password)
                 {
-                    isValidated = true;
+                    if (account.RoleId == 1)
+                    {
+                        isValidated = true;
+                    }
                 }
             }
 

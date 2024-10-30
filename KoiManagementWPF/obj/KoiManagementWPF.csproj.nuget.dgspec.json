@@ -65,6 +65,14 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[6.0.18, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[6.0.0, )"
             }
           },
           "imports": [
@@ -177,6 +185,9 @@
           "net6.0-windows7.0": {
             "targetAlias": "net6.0-windows",
             "projectReferences": {
+              "C:\\Users\\doant\\source\\repos\\KoiFishManagementSystem\\BusinessObjects\\BusinessObjects.csproj": {
+                "projectPath": "C:\\Users\\doant\\source\\repos\\KoiFishManagementSystem\\BusinessObjects\\BusinessObjects.csproj"
+              },
               "C:\\Users\\doant\\source\\repos\\KoiFishManagementSystem\\Services\\Services.csproj": {
                 "projectPath": "C:\\Users\\doant\\source\\repos\\KoiFishManagementSystem\\Services\\Services.csproj"
               }

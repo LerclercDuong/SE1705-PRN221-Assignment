@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using BusinessObjects.Entities;
+using Microsoft.Extensions.Configuration;
 
 namespace BusinessObjects.Context
 {
@@ -28,10 +29,16 @@ namespace BusinessObjects.Context
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=(local);Database=KoiFishAdvertisementDB;Uid=sa;Pwd=123456;Trusted_Connection=True;Trust Server Certificate=True");
+                optionsBuilder.UseSqlServer(GetConnectionString());
             }
         }
-
+        private string GetConnectionString()
+        {
+            IConfiguration configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", true, true).Build();
+            return configuration["ConnectionStrings:DBConnects"];
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>(entity =>
@@ -153,5 +160,7 @@ namespace BusinessObjects.Context
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        
     }
 }

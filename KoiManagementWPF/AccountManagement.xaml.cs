@@ -23,12 +23,16 @@ namespace KoiManagementWPF
     public partial class AccountManagement : Window
     {
         private readonly AccountService _accountService;
+        private readonly RoleService _roleService; // Add RoleService
 
         public AccountManagement()
         {
             InitializeComponent();
             _accountService = new AccountServiceImpl();
+            _roleService = new RoleServiceImpl();
+
             LoadAccounts();
+            LoadRoles(); // Load roles into ComboBox
         }
 
         private void LoadAccounts()
@@ -44,6 +48,19 @@ namespace KoiManagementWPF
             }
         }
 
+        private void LoadRoles()
+        {
+            try
+            {
+                var roles = _roleService.GetAllRoles();
+                cbbRole.ItemsSource = roles;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading roles: {ex.Message}");
+            }
+        }
+
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -51,7 +68,7 @@ namespace KoiManagementWPF
                 if (string.IsNullOrWhiteSpace(txtUsername.Text) ||
                     string.IsNullOrWhiteSpace(txtPassword.Text) ||
                     string.IsNullOrWhiteSpace(txtEmail.Text) ||
-                    !int.TryParse(txtRoleId.Text, out int roleId))
+                    cbbRole.SelectedValue == null)
                 {
                     MessageBox.Show("Please fill out all fields correctly.");
                     return;
@@ -61,9 +78,9 @@ namespace KoiManagementWPF
                 {
                     Username = txtUsername.Text,
                     Email = txtEmail.Text,
-                    RoleId = roleId
+                    PasswordHash = txtPassword.Text,
+                    RoleId = (int)cbbRole.SelectedValue // Get selected RoleId
                 };
-                account.PasswordHash = txtPassword.Text;
 
                 bool isAdded = _accountService.AddAccount(account);
 
@@ -92,7 +109,7 @@ namespace KoiManagementWPF
                 {
                     if (string.IsNullOrWhiteSpace(txtUsername.Text) ||
                         string.IsNullOrWhiteSpace(txtEmail.Text) ||
-                        !int.TryParse(txtRoleId.Text, out int roleId))
+                        cbbRole.SelectedValue == null)
                     {
                         MessageBox.Show("Please fill out all fields correctly.");
                         return;
@@ -100,7 +117,7 @@ namespace KoiManagementWPF
 
                     selectedAccount.Username = txtUsername.Text;
                     selectedAccount.Email = txtEmail.Text;
-                    selectedAccount.RoleId = roleId;
+                    selectedAccount.RoleId = (int)cbbRole.SelectedValue;
 
                     _accountService.UpdateAccount(selectedAccount);
                     MessageBox.Show("Account updated successfully!");
@@ -151,7 +168,7 @@ namespace KoiManagementWPF
             txtUsername.Clear();
             txtPassword.Clear();
             txtEmail.Clear();
-            txtRoleId.Clear();
+            cbbRole.SelectedIndex = -1; // Clear ComboBox selection
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -161,13 +178,14 @@ namespace KoiManagementWPF
             this.Hide();
         }
 
+
         private void AccountGrid_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
             if (AccountGrid.SelectedItem is Account selectedAccount)
             {
                 txtUsername.Text = selectedAccount.Username;
                 txtEmail.Text = selectedAccount.Email;
-                txtRoleId.Text = selectedAccount.RoleId.ToString();
+                cbbRole.SelectedValue = selectedAccount.RoleId;
                 txtPassword.Text = selectedAccount.PasswordHash;
             }
         }

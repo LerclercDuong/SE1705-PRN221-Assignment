@@ -16,11 +16,11 @@
         <TextBox x:Name="txtUsername" HorizontalAlignment="Left" Height="26" Margin="137,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170"/>
         <Label Content="Username" HorizontalAlignment="Left" Margin="49,90,0,0" VerticalAlignment="Top" Width="72" FontWeight="Bold"/>
         <Label Content="Role" HorizontalAlignment="Left" Margin="429,90,0,0" VerticalAlignment="Top" Width="72" FontWeight="Bold"/>
-        <TextBox x:Name="txtRoleId" HorizontalAlignment="Left" Height="26" Margin="482,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170"/>
         <Label Content="Email" HorizontalAlignment="Left" Margin="49,140,0,0" VerticalAlignment="Top" Width="72" FontWeight="Bold"/>
         <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="26" Margin="137,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170"/>
         <Label Content="Password" HorizontalAlignment="Left" Margin="400,140,0,0" VerticalAlignment="Top" Width="72" FontWeight="Bold"/>
         <TextBox x:Name="txtPassword" HorizontalAlignment="Left" Height="26" Margin="482,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170"/>
+        <ComboBox x:Name="cbbRole" HorizontalAlignment="Left" Height="26" Margin="482,90,0,0" VerticalAlignment="Top" Width="103" DisplayMemberPath="RoleName" SelectedValuePath="RoleId"/>
 
     </Grid>
 </Window>
